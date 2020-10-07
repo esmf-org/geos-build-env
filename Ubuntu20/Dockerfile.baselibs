@@ -16,9 +16,6 @@ ENV config gfortran_${gccversion}-openmpi_${mpiversion}
 ENV rootloc /baselibs/${version}
 ENV baselibs_src ${rootloc}/${name_version}
 
-# Add script for testing ESMF in-place
-ADD bash-for-docker/esmf-test-Dockerfile.baselibs.bash /opt
-
 RUN git clone -b bekozi-dev -j 8 --recurse-submodules https://github.com/esmf-org/ESMA-Baselibs.git ${baselibs_src} && \
     \cd ${baselibs_src} && \
     make -j8 install ESMF_COMM=openmpi ESMF_PYTHON=/usr/bin/python3 BUILD=ESSENTIALS CONFIG_SETUP=${config} 2>&1 |tee log.build && \
@@ -26,6 +23,9 @@ RUN git clone -b bekozi-dev -j 8 --recurse-submodules https://github.com/esmf-or
     mv log.* ${rootloc}
 
 ENV BASEDIR ${rootloc}/x86_64-unknown-linux-gnu/${config}
+
+# Add script for testing ESMF in-place
+ADD bash-for-docker/esmf-test-Dockerfile.baselibs.bash /opt
 
 # Build command
 # > docker build --build-arg version=<baselibversion> --build-arg mpiversion=<mpiversion> --build-arg gccversion=<gccversion> -f Dockerfile.baselib -t gmao/ubuntu20-baselibs:<baselibversion>-openmpi_<mpiversion>-gcc_<gccversion> .

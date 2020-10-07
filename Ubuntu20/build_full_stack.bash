@@ -16,6 +16,10 @@ BUILD_MKL=FALSE
 BUILD_FV3STANDALONE=FALSE
 BUILD_GEOSGCM=FALSE
 
+## Caching controls
+BUILD_BASELIBS_NOCACHE="--no-cache"
+#BUILD_BASELIBS_NOCACHE=""
+
 DO_PUSH=FALSE
 
 ## Base Image
@@ -82,6 +86,7 @@ then
       --build-arg mpiversion=${OPENMPI_VERSION} \
       --build-arg gccversion=${GCC_VERSION} \
       -f Dockerfile.baselibs \
+      ${BUILD_BASELIBS_NOCACHE} \
       -t gmao/ubuntu20-baselibs:${BASELIBS_VERSION}-openmpi_${OPENMPI_VERSION}-gcc_${GCC_VERSION} .
 
    if [[ "$DO_PUSH" == "TRUE" ]]

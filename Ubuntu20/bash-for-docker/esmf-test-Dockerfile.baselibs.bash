@@ -1,5 +1,7 @@
-export BASELIBS_VERSION="6.0.16"
+#!/usr/bin/env bash
+set -Eeuxo pipefail
 
+export BASELIBS_VERSION="6.0.16"
 export ESMF_DIR=/baselibs/${BASELIBS_VERSION}/ESMA-Baselibs-${BASELIBS_VERSION}/esmf
 
 #pushd /
