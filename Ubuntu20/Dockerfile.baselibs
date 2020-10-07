@@ -16,12 +16,11 @@ ENV config gfortran_${gccversion}-openmpi_${mpiversion}
 ENV rootloc /baselibs/${version}
 ENV baselibs_src ${rootloc}/${name_version}
 
-RUN git clone -b v${version} -j 8 --recurse-submodules https://github.com/GEOS-ESM/ESMA-Baselibs.git ${baselibs_src} && \
+RUN git clone -b bekozi-dev -j 8 --recurse-submodules https://github.com/esmf-org/ESMA-Baselibs.git ${baselibs_src} && \
     \cd ${baselibs_src} && \
     make -j8 install ESMF_COMM=openmpi ESMF_PYTHON=/usr/bin/python3 BUILD=ESSENTIALS CONFIG_SETUP=${config} 2>&1 |tee log.build && \
     make verify && \
-    mv log.* ${rootloc} && \
-    cd / && \rm -rf ${baselibs_src}
+    mv log.* ${rootloc}
 
 ENV BASEDIR ${rootloc}/x86_64-unknown-linux-gnu/${config}
 
